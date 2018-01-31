@@ -2,7 +2,6 @@ package utils
 
 import (
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 )
@@ -37,10 +36,14 @@ func initLog(
 		log.Ldate|log.Ltime|log.Lshortfile)
 }
 
+// Init To initialize loggers
 func Init() {
-	logfile, err := os.Create("goag.log")
-	if err != nil {
+	traceLogFile, err1 := os.Create("trace.log")
+	infoLogFile, err2 := os.Create("info.log")
+	warningLogFile, err3 := os.Create("warning.log")
+	errorLogFile, err4 := os.Create("error.log")
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		log.Fatalln("Fail to open log file")
 	}
-	initLog(ioutil.Discard, logfile, logfile, logfile)
+	initLog(traceLogFile, infoLogFile, warningLogFile, errorLogFile)
 }
