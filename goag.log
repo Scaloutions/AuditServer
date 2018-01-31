@@ -1,0 +1,6 @@
+INFO: 2018/01/30 21:29:36 server.go:28: Hello World
+WARNING: 2018/01/30 21:29:36 server.go:30: 
+ERROR: 2018/01/30 21:29:36 server.go:31: Hello World
+INFO: 2018/01/30 21:30:20 server.go:28: Hello
+WARNING: 2018/01/30 21:30:20 server.go:30: World
+ERROR: 2018/01/30 21:30:20 server.go:31: Hello

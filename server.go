@@ -5,10 +5,13 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"./utils"
 )
 
 type test_struct struct {
-	Test string
+	Test  string
+	Test1 string
 }
 
 func test(rw http.ResponseWriter, req *http.Request) {
@@ -22,10 +25,14 @@ func test(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(t.Test)
+	utils.INFO.Println(t.Test)
+	utils.TRACE.Println(t.Test1)
+	utils.WARNING.Println(t.Test1)
+	utils.ERROR.Println(t.Test)
 }
 
 func main() {
+	utils.Init()
 	http.HandleFunc("/test", test)
 	log.Fatal(http.ListenAndServe(":8082", nil))
 }
