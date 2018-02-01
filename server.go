@@ -9,10 +9,10 @@ import (
 	"./utils"
 )
 
-type test_struct struct {
-	Test  string
-	Test1 string
-}
+// type test_struct struct {
+// 	Test  string
+// 	Test1 string
+// }
 
 func test(rw http.ResponseWriter, req *http.Request) {
 	body, err := ioutil.ReadAll(req.Body)
@@ -20,15 +20,16 @@ func test(rw http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 	log.Println(string(body))
-	var t test_struct
-	err = json.Unmarshal(body, &t)
+	// var t test_struct
+	var userCommand utils.UserCommand
+	err = json.Unmarshal(body, &userCommand)
 	if err != nil {
 		panic(err)
 	}
-	utils.INFO.Println(t.Test)
-	utils.TRACE.Println(t.Test1)
-	utils.WARNING.Println(t.Test1)
-	utils.ERROR.Println(t.Test)
+	utils.INFO.Println(userCommand.Server)
+	// utils.TRACE.Println(t.Test1)
+	// utils.WARNING.Println(t.Test1)
+	// utils.ERROR.Println(t.Test)
 }
 
 func main() {
