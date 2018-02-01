@@ -27,6 +27,7 @@ func test(rw http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 	utils.INFO.Println(userCommand.Server)
+	utils.XMLLOGGER.Println(utils.GetXMLEventString(userCommand))
 	// utils.TRACE.Println(t.Test1)
 	// utils.WARNING.Println(t.Test1)
 	// utils.ERROR.Println(t.Test)
