@@ -51,4 +51,5 @@ func Init() {
 		log.Fatalln("Fail to open log file")
 	}
 	initLog(traceLogFile, infoLogFile, warningLogFile, errorLogFile, xmlLogFile)
+	XMLLOGGER.Println("<?xml version=\"1.0\"?>")
 }
