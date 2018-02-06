@@ -2,6 +2,3 @@
 <errorEvent>
     <server>TestServer1</server>
 </errorEvent>
-<accountTransaction>
-    <server>TestServer1</server>
-</accountTransaction>

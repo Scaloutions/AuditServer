@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	"./utils"
 )
@@ -15,8 +15,8 @@ func checkAndHandleError(err error) {
 	}
 }
 
-func getBody(req *http.Request) []byte {
-	body, err := ioutil.ReadAll(req.Body)
+func getBody(c *gin.Context) []byte {
+	body, err := ioutil.ReadAll(c.Request.Body)
 	checkAndHandleError(err)
 	return body
 }
@@ -32,66 +32,79 @@ func logXMLObj(i interface{}) {
 	utils.XMLLOGGER.Println(xmlEvent)
 }
 
-func usercommand(rw http.ResponseWriter, req *http.Request) {
-	processing("usercommand", rw, req)
+func usercommand(c *gin.Context) {
+	processing("usercommand", c)
 }
 
-func systemevent(rw http.ResponseWriter, req *http.Request) {
-	processing("systemevent", rw, req)
+func systemevent(c *gin.Context) {
+	processing("systemevent", c)
 }
 
-func quoteserver(rw http.ResponseWriter, req *http.Request) {
-	processing("quoteserver", rw, req)
+func quoteserver(c *gin.Context) {
+	processing("quoteserver", c)
 }
 
-func accounttransaction(rw http.ResponseWriter, req *http.Request) {
-	processing("accounttransaction", rw, req)
+func accounttransaction(c *gin.Context) {
+	processing("accounttransaction", c)
 }
 
-func errorevent(rw http.ResponseWriter, req *http.Request) {
-	processing("errorevent", rw, req)
+func errorevent(c *gin.Context) {
+	processing("errorevent", c)
+}
+
+func processingHelper(body []byte, i interface{}) {
+	getObject(&i, body)
+	logXMLObj(i)
 }
 
 func processing(
 	commandType string,
-	rw http.ResponseWriter,
-	req *http.Request) {
+	c *gin.Context) {
 
-	body := getBody(req)
+	body := getBody(c)
 	utils.INFO.Println(string(body))
 
 	switch commandType {
 	case "usercommand":
 		var userCommand utils.UserCommand
-		getObject(&userCommand, body)
-		logXMLObj(userCommand)
+		processingHelper(body, &userCommand)
 	case "systemevent":
 		var systemEvent utils.SystemEvent
-		getObject(&systemEvent, body)
-		logXMLObj(systemEvent)
+		processingHelper(body, &systemEvent)
 	case "accounttransaction":
 		var accountTransaction utils.AccountTransaction
-		getObject(&accountTransaction, body)
-		logXMLObj(accountTransaction)
+		processingHelper(body, &accountTransaction)
 	case "quoteserver":
 		var quoteServer utils.QuoteServer
-		getObject(&quoteServer, body)
-		logXMLObj(quoteServer)
+		processingHelper(body, &quoteServer)
 	case "errorevent":
 		var errorEvent utils.ErrorEvent
-		getObject(&errorEvent, body)
-		logXMLObj(errorEvent)
+		processingHelper(body, &errorEvent)
 	}
+
+}
+
+func getMainEngine() *gin.Engine {
+
+	router := gin.Default()
+
+	api := router.Group("/api")
+	{
+		api.POST("/systemevent", systemevent)
+		api.POST("/usercommand", usercommand)
+		api.POST("/quoteserver", quoteserver)
+		api.POST("/errorevent", errorevent)
+		api.POST("/accounttransaction", accounttransaction)
+	}
+	return router
 
 }
 
 func main() {
 
 	utils.Init() // initialize loggers
-	http.HandleFunc("/systemevent", systemevent)
-	http.HandleFunc("/usercommand", usercommand)
-	http.HandleFunc("/quoteserver", quoteserver)
-	http.HandleFunc("/errorevent", errorevent)
-	http.HandleFunc("/accounttransaction", accounttransaction)
-	log.Fatal(http.ListenAndServe(":8082", nil))
+
+	router := getMainEngine()
+
+	router.Run(":8082")
 }
