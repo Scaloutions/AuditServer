@@ -7,12 +7,7 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-
-	"./data"
-	"./repository"
+	"./controller"
 	"./utils"
 	"github.com/gin-gonic/gin"
 )
@@ -37,92 +32,17 @@ const (
 	ACCTTRANSACTIONURL = "/accounttransaction"
 )
 
-func checkAndHandleError(err error) {
-	if err != nil {
-		utils.ERROR.Println(err)
-	}
-}
-
-func getBody(c *gin.Context) []byte {
-	body, err := ioutil.ReadAll(c.Request.Body)
-	checkAndHandleError(err)
-	return body
-}
-
-func getObject(i interface{}, body []byte) interface{} {
-	err := json.Unmarshal(body, &i)
-	checkAndHandleError(err)
-	return i
-}
-
-func logXMLObj(i interface{}) {
-	xmlEvent := utils.GetXMLEventString(i)
-	utils.XMLLOGGER.Println(xmlEvent)
-}
-
-func usercommand(c *gin.Context) {
-	processing("usercommand", c)
-}
-
-func systemevent(c *gin.Context) {
-	processing("systemevent", c)
-}
-
-func quoteserver(c *gin.Context) {
-	processing("quoteserver", c)
-}
-
-func accounttransaction(c *gin.Context) {
-	processing("accounttransaction", c)
-}
-
-func errorevent(c *gin.Context) {
-	processing("errorevent", c)
-}
-
-func processingHelper(body []byte, i interface{}) {
-	getObject(&i, body)
-	logXMLObj(i) // instead of logging, sending data to database
-}
-
-func processing(
-	commandType string,
-	c *gin.Context) {
-
-	body := getBody(c)
-	utils.INFO.Println(string(body))
-
-	switch commandType {
-	case "usercommand":
-		var userCommand data.UserCommand
-		processingHelper(body, &userCommand)
-	case "systemevent":
-		var systemEvent data.SystemEvent
-		processingHelper(body, &systemEvent)
-	case "accounttransaction":
-		var accountTransaction data.AccountTransaction
-		processingHelper(body, &accountTransaction)
-	case "quoteserver":
-		var quoteServer data.QuoteServer
-		processingHelper(body, &quoteServer)
-	case "errorevent":
-		var errorEvent data.ErrorEvent
-		processingHelper(body, &errorEvent)
-	}
-
-}
-
 func getMainEngine() *gin.Engine {
 
 	router := gin.Default()
 
 	api := router.Group(APIURL)
 	{
-		api.POST(SYSEVENTURL, systemevent)
-		api.POST(USRCOMMANDURL, usercommand)
-		api.POST(QUOSERVERURL, quoteserver)
-		api.POST(ERREVENTURL, errorevent)
-		api.POST(ACCTTRANSACTIONURL, accounttransaction)
+		api.POST(SYSEVENTURL, controller.Systemevent)
+		api.POST(USRCOMMANDURL, controller.Usercommand)
+		api.POST(QUOSERVERURL, controller.Quoteserver)
+		api.POST(ERREVENTURL, controller.Errorevent)
+		api.POST(ACCTTRANSACTIONURL, controller.Accounttransaction)
 	}
 	return router
 
@@ -131,8 +51,6 @@ func getMainEngine() *gin.Engine {
 func main() {
 
 	utils.Init() // initialize loggers
-	collection := repository.CreateTable()
-	fmt.Println(collection)
 
 	router := getMainEngine()
 
