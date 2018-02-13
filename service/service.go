@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 
 	"gopkg.in/mgo.v2/bson"
@@ -102,9 +101,8 @@ func Processing(commandType string, c *gin.Context, collection *mgo.Collection) 
 func LogAll(colllection *mgo.Collection) {
 
 	eventMap := data.GetEventMap()
-	var results []map[string]interface{}
-	error := colllection.Find(nil).All(&results)
-	utils.CheckAndHandleError(error)
+	results :=
+		repositories.GetAllEvents(colllection)
 	for _, event := range results {
 		processXMLEvent(event, eventMap)
 	}
@@ -114,10 +112,8 @@ func LogByUserName(collection *mgo.Collection, c *gin.Context) {
 
 	eventMap := data.GetEventMap()
 	userName := c.Param("userName")
-	fmt.Println(userName)
-	var results []map[string]interface{}
-	error := collection.Find(bson.M{"username": userName}).All(&results)
-	utils.CheckAndHandleError(error)
+	results :=
+		repositories.GetAllEventsByUser(collection, userName)
 	for _, event := range results {
 		processXMLEvent(event, eventMap)
 	}

@@ -7,3 +7,26 @@
     <username>byu00</username>
     <funds></funds>
 </accountTransaction>
+<accountTransaction>
+    <timestamp>1518529970200</timestamp>
+    <server>TestServer1</server>
+    <transactionNum>0</transactionNum>
+    <action></action>
+    <username>byu00</username>
+    <funds></funds>
+</accountTransaction>
+<errorEvent>
+    <timestamp>1518531094288</timestamp>
+    <server>TestServer2</server>
+    <transactionNum>0</transactionNum>
+    <username></username>
+    <errorMessage></errorMessage>
+</errorEvent>
+<accountTransaction>
+    <timestamp>1518529970200</timestamp>
+    <server>TestServer1</server>
+    <transactionNum>0</transactionNum>
+    <action></action>
+    <username>byu00</username>
+    <funds></funds>
+</accountTransaction>
