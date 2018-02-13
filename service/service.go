@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 
 	"gopkg.in/mgo.v2/bson"
@@ -38,36 +37,38 @@ func processingHelper(
 	collection *mgo.Collection) {
 
 	getObject(&i, body)
-	fmt.Println(i)
+
+	eventMap := data.GetEventMap()
+
 	switch i.(type) {
 	case *data.UserCommandEvent:
 		userCommandEvent := i.(*data.UserCommandEvent)
 		userCommandEvent.ID = bson.NewObjectId()
-		userCommandEvent.EventType = 1
+		userCommandEvent.EventType = eventMap["usercommad"]
 		userCommandEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, userCommandEvent)
 	case *data.SystemEventJ:
 		systemEventJ := i.(*data.SystemEventJ)
 		systemEventJ.ID = bson.NewObjectId()
-		systemEventJ.EventType = 2
+		systemEventJ.EventType = eventMap["systemevent"]
 		systemEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, systemEventJ)
 	case *data.AccountTransactionEvent:
 		accountTransactionEvent := i.(*data.AccountTransactionEvent)
 		accountTransactionEvent.ID = bson.NewObjectId()
-		accountTransactionEvent.EventType = 3
+		accountTransactionEvent.EventType = eventMap["accounttransaction"]
 		accountTransactionEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, accountTransactionEvent)
 	case *data.QuoteServerEvent:
 		quoteServerEvent := i.(*data.QuoteServerEvent)
 		quoteServerEvent.ID = bson.NewObjectId()
-		quoteServerEvent.EventType = 4
+		quoteServerEvent.EventType = eventMap["quoteserver"]
 		quoteServerEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, quoteServerEvent)
 	case *data.ErrorEventJ:
 		errorEventJ := i.(*data.ErrorEventJ)
 		errorEventJ.ID = bson.NewObjectId()
-		errorEventJ.EventType = 5
+		errorEventJ.EventType = eventMap["errorevent"]
 		errorEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, errorEventJ)
 	}
@@ -99,31 +100,92 @@ func Processing(commandType string, c *gin.Context, collection *mgo.Collection) 
 
 func LogAll(colllection *mgo.Collection) {
 
+	eventMap := data.GetEventMap()
 	var results []map[string]interface{}
 	error := colllection.Find(nil).All(&results)
 	utils.CheckAndHandleError(error)
 	for _, event := range results {
+		processXMLEvent(event, eventMap)
+	}
+}
 
-		eventType, _ := event["eventtype"].(int)
-		server, _ := event["server"].(string)
-		transactionNum, _ := event["transactionnum"].(int)
-		usrName, _ := event["username"].(string)
-		timestamp, _ := event["timestamp"].(int64)
+func processXMLEvent(event map[string]interface{}, eventMap map[string]int) {
 
-		switch eventType {
-		case 1:
-			command, _ := event["command"].(string)
-			stockSymbol, _ := event["stocksymbol"].(string)
-			funds, _ := event["funds"].(float64)
-			userCommand := data.GetUserCommand(
-				server,
-				transactionNum,
-				command,
-				usrName,
-				stockSymbol,
-				funds,
-				timestamp)
-			logXMLObj(userCommand)
-		}
+	eventType, _ := event["eventtype"].(int)
+	server, _ := event["server"].(string)
+	transactionNum, _ := event["transactionnum"].(int)
+	usrName, _ := event["username"].(string)
+	timestamp, _ := event["timestamp"].(int64)
+
+	switch eventType {
+	case eventMap["usercommand"]:
+		command, _ := event["command"].(string)
+		stockSymbol, _ := event["stocksymbol"].(string)
+		funds, _ := event["funds"].(float64)
+		userCommand := data.GetUserCommand(
+			server,
+			transactionNum,
+			command,
+			usrName,
+			stockSymbol,
+			funds,
+			timestamp)
+		logXMLObj(userCommand)
+	case eventMap["systemevent"]:
+		command, _ := event["command"].(string)
+		stockSymbol, _ := event["stocksymbol"].(string)
+		funds, _ := event["funds"].(float64)
+		systemEvent := data.GetSystemEvent(
+			server,
+			transactionNum,
+			command,
+			usrName,
+			stockSymbol,
+			funds,
+			timestamp)
+		logXMLObj(systemEvent)
+	case eventMap["errorevent"]:
+		command, _ := event["command"].(string)
+		stockSymbol, _ := event["stocksymbol"].(string)
+		funds, _ := event["funds"].(float64)
+		errMsg, _ := event["errormessage"].(string)
+		errorEvent := data.GetErrorEvent(
+			server,
+			transactionNum,
+			command,
+			usrName,
+			stockSymbol,
+			funds,
+			errMsg,
+			timestamp)
+		logXMLObj(errorEvent)
+	case eventMap["quoteserver"]:
+		quoteServerTime, _ := event["quoteservertime"].(int64)
+		command, _ := event["command"].(string)
+		stockSymbol, _ := event["stocksymbol"].(string)
+		price, _ := event["price"].(float64)
+		cryptokey, _ := event["cryptokey"].(string)
+		quoteServer := data.GetQuoteServer(
+			server,
+			transactionNum,
+			quoteServerTime,
+			command,
+			usrName,
+			stockSymbol,
+			price,
+			cryptokey,
+			timestamp)
+		logXMLObj(quoteServer)
+	case eventMap["accounttransaction"]:
+		action, _ := event["action"].(string)
+		funds, _ := event["funds"].(float64)
+		accountTransaction := data.GetAccountTransaction(
+			server,
+			transactionNum,
+			action,
+			usrName,
+			funds,
+			timestamp)
+		logXMLObj(accountTransaction)
 	}
 }

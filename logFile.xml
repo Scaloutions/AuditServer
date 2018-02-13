@@ -7,16 +7,24 @@
     <username></username>
 </userCommand>
 <userCommand>
-    <timestamp>0</timestamp>
-    <server>TestServer4</server>
-    <transactionNum>0</transactionNum>
-    <command></command>
-    <username></username>
-</userCommand>
-<userCommand>
     <timestamp>1518526767388</timestamp>
     <server>TestServer4</server>
     <transactionNum>0</transactionNum>
     <command></command>
     <username></username>
 </userCommand>
+<accountTransaction>
+    <timestamp>1518528544827</timestamp>
+    <server>TestServer1</server>
+    <transactionNum>0</transactionNum>
+    <action></action>
+    <username></username>
+    <funds></funds>
+</accountTransaction>
+<errorEvent>
+    <timestamp>1518528563244</timestamp>
+    <server>TestServer2</server>
+    <transactionNum>0</transactionNum>
+    <username></username>
+    <errorMessage></errorMessage>
+</errorEvent>
