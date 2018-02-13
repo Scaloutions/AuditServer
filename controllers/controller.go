@@ -53,3 +53,9 @@ func (controller Controller) LogAll(c *gin.Context) {
 	service.LogAll(collection)
 
 }
+
+func (controller Controller) LogByUserName(c *gin.Context) {
+
+	collection := utils.GetEventCollection(controller.session.Clone())
+	service.LogByUserName(collection, c)
+}

@@ -53,6 +53,7 @@ func getMainEngine() *gin.Engine {
 		api.POST(ERREVENTURL, controller.Errorevent)
 		api.POST(ACCTTRANSACTIONURL, controller.Accounttransaction)
 		api.POST(LOGALLURL, controller.LogAll)
+		api.POST(LOGURL, controller.LogByUserName)
 	}
 	return router
 
