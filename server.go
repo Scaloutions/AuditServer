@@ -7,7 +7,7 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
-	"./controller"
+	"./controllers"
 	"./utils"
 	"github.com/gin-gonic/gin"
 )
@@ -33,6 +33,11 @@ const (
 )
 
 func getMainEngine() *gin.Engine {
+
+	session := utils.GetDBSession()
+
+	controller :=
+		controllers.NewController(session)
 
 	router := gin.Default()
 

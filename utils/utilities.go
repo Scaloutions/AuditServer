@@ -17,9 +17,9 @@ func GetFundsAsString(amount float64) string {
 	return fmt.Sprintf("%.2f", float64(amount))
 }
 
-func check(e error) {
-	if e != nil {
-		panic(e)
+func CheckAndHandleError(err error) {
+	if err != nil {
+		ERROR.Println(err)
 	}
 }
 

@@ -4,26 +4,23 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
+	"gopkg.in/mgo.v2"
+
 	"../data"
+	"../repositories"
 	"../utils"
 	"github.com/gin-gonic/gin"
 )
 
-func checkAndHandleError(err error) {
-	if err != nil {
-		utils.ERROR.Println(err)
-	}
-}
-
 func getBody(c *gin.Context) []byte {
 	body, err := ioutil.ReadAll(c.Request.Body)
-	checkAndHandleError(err)
+	utils.CheckAndHandleError(err)
 	return body
 }
 
 func getObject(i interface{}, body []byte) interface{} {
 	err := json.Unmarshal(body, &i)
-	checkAndHandleError(err)
+	utils.CheckAndHandleError(err)
 	return i
 }
 
@@ -32,33 +29,35 @@ func logXMLObj(i interface{}) {
 	utils.XMLLOGGER.Println(xmlEvent)
 }
 
-func processingHelper(body []byte, i interface{}) {
+func processingHelper(
+	body []byte,
+	i interface{},
+	collection *mgo.Collection) {
+
 	getObject(&i, body)
-	logXMLObj(i) // instead of logging, sending data to database
+	repositories.SaveEvent(collection, i)
 }
 
-func Processing(
-	commandType string,
-	c *gin.Context) {
+func Processing(commandType string, c *gin.Context, collection *mgo.Collection) {
 
 	body := getBody(c)
 	utils.INFO.Println(string(body))
 
 	switch commandType {
 	case "usercommand":
-		var userCommand data.UserCommand
-		processingHelper(body, &userCommand)
+		var userCommandEvent data.UserCommandEvent
+		processingHelper(body, &userCommandEvent, collection)
 	case "systemevent":
-		var systemEvent data.SystemEvent
-		processingHelper(body, &systemEvent)
+		var systemEventJ data.SystemEventJ
+		processingHelper(body, &systemEventJ, collection)
 	case "accounttransaction":
-		var accountTransaction data.AccountTransaction
-		processingHelper(body, &accountTransaction)
+		var accountTransactionEvent data.AccountTransactionEvent
+		processingHelper(body, &accountTransactionEvent, collection)
 	case "quoteserver":
-		var quoteServer data.QuoteServer
-		processingHelper(body, &quoteServer)
+		var quoteServerEvent data.QuoteServerEvent
+		processingHelper(body, &quoteServerEvent, collection)
 	case "errorevent":
-		var errorEvent data.ErrorEvent
-		processingHelper(body, &errorEvent)
+		var errorEventJ data.ErrorEventJ
+		processingHelper(body, &errorEventJ, collection)
 	}
 }

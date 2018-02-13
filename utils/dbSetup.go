@@ -1,11 +1,9 @@
-package repository
+package utils
 
 import (
 	"fmt"
 
 	mgo "gopkg.in/mgo.v2"
-
-	"../utils"
 )
 
 const (
@@ -24,23 +22,22 @@ const (
 	SUCCESSFULCONNECTTODBMSG = "Connecting to mongodb server successfully..."
 )
 
-func getDBSession() *mgo.Session {
+// GetDBSession (to be continued)
+func GetDBSession() *mgo.Session {
 	session, err := mgo.Dial(SERVER)
 	if err != nil {
 		errMsg :=
 			fmt.Sprintf("Failed to establish connection to Mongo server: \n %s", err)
-		utils.ERROR.Println(errMsg)
+		ERROR.Println(errMsg)
 	}
-	utils.INFO.Println(SUCCESSFULCONNECTTODBMSG)
+	INFO.Println(SUCCESSFULCONNECTTODBMSG)
 	// Optional. Switch the session to a monotonic behavior.
 	session.SetMode(mgo.Monotonic, true)
 	return session
 }
 
-// CreateTable (to be continued)
-func CreateTable() *mgo.Collection {
-	session := getDBSession()
-	defer session.Close()
+// GetEventCollection (to be continued)
+func GetEventCollection(session *mgo.Session) *mgo.Collection {
 	collection := session.DB(DBNAME).C(DOCNAME)
 	return collection
 }
