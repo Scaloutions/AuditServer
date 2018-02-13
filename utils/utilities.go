@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-func getCurrentTs() int64 {
+func GetCurrentTs() int64 {
 	return time.Now().UnixNano() / 1000000
 }
 
-func getFundsAsString(amount float64) string {
+func GetFundsAsString(amount float64) string {
 	if amount == 0 {
 		return ""
 	}

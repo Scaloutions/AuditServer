@@ -1,8 +1,14 @@
-package utils
+package data
 
 import (
 	"encoding/xml"
+
+	"../utils"
 )
+
+/*
+	XML structs
+*/
 
 // UserCommand infomration necessary for logging user command
 type UserCommand struct {
@@ -73,10 +79,10 @@ func GetUserCommand(
 	stockSymbol string,
 	funds float64) UserCommand {
 
-	fundsAsString := getFundsAsString(funds)
+	fundsAsString := utils.GetFundsAsString(funds)
 
 	return UserCommand{
-		Timestamp:      getCurrentTs(),
+		Timestamp:      utils.GetCurrentTs(),
 		Server:         server,
 		TransactionNum: transactionNum,
 		Command:        command,
@@ -92,10 +98,10 @@ func GetAccountTransaction(
 	username string,
 	funds float64) AccountTransaction {
 
-	fundsAsString := getFundsAsString(funds)
+	fundsAsString := utils.GetFundsAsString(funds)
 
 	return AccountTransaction{
-		Timestamp:      getCurrentTs(),
+		Timestamp:      utils.GetCurrentTs(),
 		Server:         server,
 		TransactionNum: transactionNum,
 		Action:         action,
@@ -111,10 +117,10 @@ func GetSystemEvent(
 	stockSymbol string,
 	funds float64) SystemEvent {
 
-	fundsAsString := getFundsAsString(funds)
+	fundsAsString := utils.GetFundsAsString(funds)
 
 	return SystemEvent{
-		Timestamp:      getCurrentTs(),
+		Timestamp:      utils.GetCurrentTs(),
 		Server:         server,
 		TransactionNum: transactionNum,
 		Command:        command,
@@ -133,10 +139,10 @@ func GetQuoteServer(
 	price float64,
 	cryptokey string) QuoteServer {
 
-	priceAsString := getFundsAsString(price)
+	priceAsString := utils.GetFundsAsString(price)
 
 	return QuoteServer{
-		Timestamp:       getCurrentTs(),
+		Timestamp:       utils.GetCurrentTs(),
 		Server:          server,
 		TransactionNum:  transactionNum,
 		QuoteServerTime: quoteServerTime,
@@ -156,10 +162,10 @@ func GetErrorEvent(
 	funds float64,
 	errorMessage string) ErrorEvent {
 
-	fundsAsString := getFundsAsString(funds)
+	fundsAsString := utils.GetFundsAsString(funds)
 
 	return ErrorEvent{
-		Timestamp:      getCurrentTs(),
+		Timestamp:      utils.GetCurrentTs(),
 		Server:         server,
 		TransactionNum: transactionNum,
 		Command:        command,
@@ -167,4 +173,21 @@ func GetErrorEvent(
 		StockSymbol:    stockSymbol,
 		Funds:          fundsAsString,
 		ErrorMessage:   errorMessage}
+}
+
+/*
+
+	Functions
+
+*/
+
+// GetEventMap (to be continued)
+func GetEventMap() map[string]int {
+	return map[string]int{
+		"usercommand":        1,
+		"systemevent":        2,
+		"errorevent":         3,
+		"quoteserver":        4,
+		"accounttransaction": 5,
+	}
 }
