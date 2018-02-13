@@ -49,3 +49,6 @@ type ErrorEventJ struct {
 	Funds        string `json:"funds,omitempty"`
 	ErrorMessage string `json:"errorMessage"`
 }
+
+// Events is an array of Event
+type Events []Event

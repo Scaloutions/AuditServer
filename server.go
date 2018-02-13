@@ -12,23 +12,12 @@ import (
 	"io/ioutil"
 
 	"./data"
+	"./repository"
 	"./utils"
 	"github.com/gin-gonic/gin"
-	mgo "gopkg.in/mgo.v2"
 )
 
 const (
-
-	/*
-		DB related
-	*/
-
-	// SERVER the DB server
-	SERVER = "localhost:27017"
-	// DBNAME the name of the DB instance
-	DBNAME = "eventstore"
-	// DOCNAME the name of the document
-	DOCNAME = "events"
 
 	/*
 		URLs
@@ -46,30 +35,7 @@ const (
 	ERREVENTURL = "/errorevent"
 	// ACCTTRANSACTIONURL (to be continued)
 	ACCTTRANSACTIONURL = "/accounttransaction"
-
-	/*
-		Messages
-	*/
-
-	// SUCCESSFULCONNECTTODBMSG (to be continued)
-	SUCCESSFULCONNECTTODBMSG = "Connecting to mongodb server successfully..."
 )
-
-func getDBSession() *mgo.Session {
-
-	session, err := mgo.Dial(SERVER)
-	if err != nil {
-		errMsg :=
-			fmt.Sprintf("Failed to establish connection to Mongo server: \n %s", err)
-		utils.ERROR.Println(errMsg)
-	}
-	utils.INFO.Println(SUCCESSFULCONNECTTODBMSG)
-
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
-
-	return session
-}
 
 func checkAndHandleError(err error) {
 	if err != nil {
@@ -165,9 +131,8 @@ func getMainEngine() *gin.Engine {
 func main() {
 
 	utils.Init() // initialize loggers
-
-	session := getDBSession()
-	defer session.Close()
+	collection := repository.CreateTable()
+	fmt.Println(collection)
 
 	router := getMainEngine()
 
