@@ -116,7 +116,7 @@ func errorevent(c *gin.Context) {
 
 func processingHelper(body []byte, i interface{}) {
 	getObject(&i, body)
-	//logXMLObj(i) // instead of logging, sending data to database
+	logXMLObj(i) // instead of logging, sending data to database
 }
 
 func processing(

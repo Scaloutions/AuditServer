@@ -13,11 +13,11 @@ import (
 // UserCommand infomration necessary for logging user command
 type UserCommand struct {
 	XMLName        xml.Name `xml:"userCommand"`
-	Timestamp      int64    `xml:"timestamp,omitempty"`
-	Server         string   `xml:"server,omitempty"`
-	TransactionNum int      `xml:"transactionNum,omitempty"`
-	Command        string   `xml:"command,omitempty"`
-	Username       string   `xml:"username,omitempty"`
+	Timestamp      int64    `xml:"timestamp"`
+	Server         string   `xml:"server"`
+	TransactionNum int      `xml:"transactionNum"`
+	Command        string   `xml:"command"`
+	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
 	Funds          string   `xml:"funds,omitempty"`
 }
@@ -25,22 +25,22 @@ type UserCommand struct {
 // AccountTransaction infomration necessary for logging account transaction
 type AccountTransaction struct {
 	XMLName        xml.Name `xml:"accountTransaction"`
-	Timestamp      int64    `xml:"timestamp,omitempty"`
-	Server         string   `xml:"server,omitempty"`
-	TransactionNum int      `xml:"transactionNum,omitempty"`
-	Action         string   `xml:"action,omitempty"`
-	Username       string   `xml:"username,omitempty"`
-	Funds          string   `xml:"funds,omitempty"`
+	Timestamp      int64    `xml:"timestamp"`
+	Server         string   `xml:"server"`
+	TransactionNum int      `xml:"transactionNum"`
+	Action         string   `xml:"action"`
+	Username       string   `xml:"username"`
+	Funds          string   `xml:"funds"`
 }
 
 // SystemEvent information necessary for logging system event
 type SystemEvent struct {
 	XMLName        xml.Name `xml:"systemEvent"`
-	Timestamp      int64    `xml:"timestamp,omitempty"`
-	Server         string   `xml:"server,omitempty"`
-	TransactionNum int      `xml:"transactionNum,omitempty"`
+	Timestamp      int64    `xml:"timestamp"`
+	Server         string   `xml:"server"`
+	TransactionNum int      `xml:"transactionNum"`
 	Command        string   `xml:"command,omitempty"`
-	Username       string   `xml:"username,omitempty"`
+	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
 	Funds          string   `xml:"funds,omitempty"`
 }
@@ -48,27 +48,27 @@ type SystemEvent struct {
 // QuoteServer information necessary for logging quote server hit
 type QuoteServer struct {
 	XMLName         xml.Name `xml:"quoteServer"`
-	Timestamp       int64    `xml:"timestamp,omitempty"`
-	Server          string   `xml:"server,omitempty"`
-	TransactionNum  int      `xml:"transactionNum,omitempty"`
-	QuoteServerTime int64    `xml:"quoteServerTime,omitempty"`
+	Timestamp       int64    `xml:"timestamp"`
+	Server          string   `xml:"server"`
+	TransactionNum  int      `xml:"transactionNum"`
+	QuoteServerTime int64    `xml:"quoteServerTime"`
 	Command         string   `xml:"command,omitempty"`
-	Username        string   `xml:"username,omitempty"`
-	StockSymbol     string   `xml:"stockSymbol,omitempty"`
-	Price           string   `xml:"price,omitempty"`
-	Cryptokey       string   `xml:"cryptokey,omitempty"`
+	Username        string   `xml:"username"`
+	StockSymbol     string   `xml:"stockSymbol"`
+	Price           string   `xml:"price"`
+	Cryptokey       string   `xml:"cryptokey"`
 }
 
 type ErrorEvent struct {
 	XMLName        xml.Name `xml:"errorEvent"`
-	Timestamp      int64    `xml:"timestamp,omitempty"`
-	Server         string   `xml:"server,omitempty"`
-	TransactionNum int      `xml:"transactionNum,omitempty"`
+	Timestamp      int64    `xml:"timestamp"`
+	Server         string   `xml:"server"`
+	TransactionNum int      `xml:"transactionNum"`
 	Command        string   `xml:"command,omitempty"`
-	Username       string   `xml:"username,omitempty"`
+	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
 	Funds          string   `xml:"funds,omitempty"`
-	ErrorMessage   string   `xml:"errorMessage,omitempty"`
+	ErrorMessage   string   `xml:"errorMessage"`
 }
 
 func GetUserCommand(
