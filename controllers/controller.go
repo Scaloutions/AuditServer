@@ -46,3 +46,10 @@ func (controller Controller) Errorevent(c *gin.Context) {
 	collection := utils.GetEventCollection(controller.session.Clone())
 	service.Processing("errorevent", c, collection)
 }
+
+func (controller Controller) LogAll(c *gin.Context) {
+
+	collection := utils.GetEventCollection(controller.session.Clone())
+	service.LogAll(collection)
+
+}

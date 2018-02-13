@@ -2,6 +2,7 @@ package data
 
 import (
 	"encoding/xml"
+	"fmt"
 
 	"../utils"
 )
@@ -13,9 +14,9 @@ import (
 // UserCommand infomration necessary for logging user command
 type UserCommand struct {
 	XMLName        xml.Name `xml:"userCommand"`
-	Timestamp      int64    `xml:"timestamp"`
+	Timestamp      string   `xml:"timestamp"`
 	Server         string   `xml:"server"`
-	TransactionNum int      `xml:"transactionNum"`
+	TransactionNum string   `xml:"transactionNum"`
 	Command        string   `xml:"command"`
 	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
@@ -25,9 +26,9 @@ type UserCommand struct {
 // AccountTransaction infomration necessary for logging account transaction
 type AccountTransaction struct {
 	XMLName        xml.Name `xml:"accountTransaction"`
-	Timestamp      int64    `xml:"timestamp"`
+	Timestamp      string   `xml:"timestamp"`
 	Server         string   `xml:"server"`
-	TransactionNum int      `xml:"transactionNum"`
+	TransactionNum string   `xml:"transactionNum"`
 	Action         string   `xml:"action"`
 	Username       string   `xml:"username"`
 	Funds          string   `xml:"funds"`
@@ -36,9 +37,9 @@ type AccountTransaction struct {
 // SystemEvent information necessary for logging system event
 type SystemEvent struct {
 	XMLName        xml.Name `xml:"systemEvent"`
-	Timestamp      int64    `xml:"timestamp"`
+	Timestamp      string   `xml:"timestamp"`
 	Server         string   `xml:"server"`
-	TransactionNum int      `xml:"transactionNum"`
+	TransactionNum string   `xml:"transactionNum"`
 	Command        string   `xml:"command,omitempty"`
 	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
@@ -48,10 +49,10 @@ type SystemEvent struct {
 // QuoteServer information necessary for logging quote server hit
 type QuoteServer struct {
 	XMLName         xml.Name `xml:"quoteServer"`
-	Timestamp       int64    `xml:"timestamp"`
+	Timestamp       string   `xml:"timestamp"`
 	Server          string   `xml:"server"`
-	TransactionNum  int      `xml:"transactionNum"`
-	QuoteServerTime int64    `xml:"quoteServerTime"`
+	TransactionNum  string   `xml:"transactionNum"`
+	QuoteServerTime string   `xml:"quoteServerTime"`
 	Command         string   `xml:"command,omitempty"`
 	Username        string   `xml:"username"`
 	StockSymbol     string   `xml:"stockSymbol"`
@@ -61,9 +62,9 @@ type QuoteServer struct {
 
 type ErrorEvent struct {
 	XMLName        xml.Name `xml:"errorEvent"`
-	Timestamp      int64    `xml:"timestamp"`
+	Timestamp      string   `xml:"timestamp"`
 	Server         string   `xml:"server"`
-	TransactionNum int      `xml:"transactionNum"`
+	TransactionNum string   `xml:"transactionNum"`
 	Command        string   `xml:"command,omitempty"`
 	Username       string   `xml:"username"`
 	StockSymbol    string   `xml:"stockSymbol,omitempty"`
@@ -77,14 +78,15 @@ func GetUserCommand(
 	command string,
 	username string,
 	stockSymbol string,
-	funds float64) UserCommand {
+	funds float64,
+	timestamp int64) UserCommand {
 
 	fundsAsString := utils.GetFundsAsString(funds)
 
 	return UserCommand{
-		Timestamp:      utils.GetCurrentTs(),
+		Timestamp:      fmt.Sprint(timestamp),
 		Server:         server,
-		TransactionNum: transactionNum,
+		TransactionNum: fmt.Sprint(transactionNum),
 		Command:        command,
 		Username:       username,
 		StockSymbol:    stockSymbol,
@@ -96,14 +98,15 @@ func GetAccountTransaction(
 	transactionNum int,
 	action string,
 	username string,
-	funds float64) AccountTransaction {
+	funds float64,
+	timestamp int64) AccountTransaction {
 
 	fundsAsString := utils.GetFundsAsString(funds)
 
 	return AccountTransaction{
-		Timestamp:      utils.GetCurrentTs(),
+		Timestamp:      fmt.Sprint(timestamp),
 		Server:         server,
-		TransactionNum: transactionNum,
+		TransactionNum: fmt.Sprint(transactionNum),
 		Action:         action,
 		Username:       username,
 		Funds:          fundsAsString}
@@ -115,14 +118,15 @@ func GetSystemEvent(
 	command string,
 	username string,
 	stockSymbol string,
-	funds float64) SystemEvent {
+	funds float64,
+	timestamp int64) SystemEvent {
 
 	fundsAsString := utils.GetFundsAsString(funds)
 
 	return SystemEvent{
-		Timestamp:      utils.GetCurrentTs(),
+		Timestamp:      fmt.Sprint(timestamp),
 		Server:         server,
-		TransactionNum: transactionNum,
+		TransactionNum: fmt.Sprint(transactionNum),
 		Command:        command,
 		Username:       username,
 		StockSymbol:    stockSymbol,
@@ -137,15 +141,16 @@ func GetQuoteServer(
 	username string,
 	stockSymbol string,
 	price float64,
-	cryptokey string) QuoteServer {
+	cryptokey string,
+	timestamp int64) QuoteServer {
 
 	priceAsString := utils.GetFundsAsString(price)
 
 	return QuoteServer{
-		Timestamp:       utils.GetCurrentTs(),
+		Timestamp:       fmt.Sprint(timestamp),
 		Server:          server,
-		TransactionNum:  transactionNum,
-		QuoteServerTime: quoteServerTime,
+		TransactionNum:  fmt.Sprint(transactionNum),
+		QuoteServerTime: fmt.Sprint(quoteServerTime),
 		Command:         command,
 		Username:        username,
 		StockSymbol:     stockSymbol,
@@ -160,14 +165,15 @@ func GetErrorEvent(
 	username string,
 	stockSymbol string,
 	funds float64,
-	errorMessage string) ErrorEvent {
+	errorMessage string,
+	timestamp int64) ErrorEvent {
 
 	fundsAsString := utils.GetFundsAsString(funds)
 
 	return ErrorEvent{
-		Timestamp:      utils.GetCurrentTs(),
+		Timestamp:      fmt.Sprint(timestamp),
 		Server:         server,
-		TransactionNum: transactionNum,
+		TransactionNum: fmt.Sprint(transactionNum),
 		Command:        command,
 		Username:       username,
 		StockSymbol:    stockSymbol,

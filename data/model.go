@@ -5,14 +5,15 @@ import (
 )
 
 type UserCommandEvent struct {
-	Timestamp      int64  `json:"timestamp"`
-	Server         string `json:"server"`
-	TransactionNum int    `json:"transactionNum"`
-	EventType      string `json:"eventType"`
-	UserName       string `json:"userName"`
-	Command        string `json:"command"`
-	StockSymbol    string `json:"stockSymbol,omitempty"`
-	Funds          string `json:"funds,omitempty"`
+	ID             bson.ObjectId `bson:"_id"`
+	Timestamp      int64         `json:"timestamp"`
+	Server         string        `json:"server"`
+	TransactionNum int           `json:"transactionNum"`
+	EventType      int           `json:"eventType"`
+	UserName       string        `json:"userName"`
+	Command        string        `json:"command"`
+	StockSymbol    string        `json:"stockSymbol,omitempty"`
+	Funds          string        `json:"funds,omitempty"`
 }
 
 type AccountTransactionEvent struct {
@@ -20,7 +21,7 @@ type AccountTransactionEvent struct {
 	Timestamp      int64         `json:"timestamp"`
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
-	EventType      string        `json:"eventType"`
+	EventType      int           `json:"eventType"`
 	UserName       string        `json:"userName"`
 	Action         string        `json:"action"`
 	Funds          string        `json:"funds"`
@@ -31,7 +32,7 @@ type SystemEventJ struct {
 	Timestamp      int64         `json:"timestamp"`
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
-	EventType      string        `json:"eventType"`
+	EventType      int           `json:"eventType"`
 	UserName       string        `json:"userName"`
 	Command        string        `json:"command,omitempty"`
 	StockSymbol    string        `json:"stockSymbol,omitempty"`
@@ -43,7 +44,7 @@ type QuoteServerEvent struct {
 	Timestamp       int64         `json:"timestamp"`
 	Server          string        `json:"server"`
 	TransactionNum  int           `json:"transactionNum"`
-	EventType       string        `json:"eventType"`
+	EventType       int           `json:"eventType"`
 	UserName        string        `json:"userName"`
 	QuoteServerTime int64         `json:"quoteServerTime"`
 	Command         string        `json:"command,omitempty"`
@@ -57,7 +58,7 @@ type ErrorEventJ struct {
 	Timestamp      int64         `json:"timestamp"`
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
-	EventType      string        `json:"eventType"`
+	EventType      int           `json:"eventType"`
 	UserName       string        `json:"userName"`
 	Command        string        `json:"command,omitempty"`
 	StockSymbol    string        `json:"stockSymbol,omitempty"`

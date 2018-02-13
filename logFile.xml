@@ -1,1 +1,22 @@
 <?xml version="1.0"?>
+<userCommand>
+    <timestamp>0</timestamp>
+    <server>TestServer4</server>
+    <transactionNum>0</transactionNum>
+    <command></command>
+    <username></username>
+</userCommand>
+<userCommand>
+    <timestamp>0</timestamp>
+    <server>TestServer4</server>
+    <transactionNum>0</transactionNum>
+    <command></command>
+    <username></username>
+</userCommand>
+<userCommand>
+    <timestamp>1518526767388</timestamp>
+    <server>TestServer4</server>
+    <transactionNum>0</transactionNum>
+    <command></command>
+    <username></username>
+</userCommand>

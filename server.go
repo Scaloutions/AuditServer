@@ -30,6 +30,10 @@ const (
 	ERREVENTURL = "/errorevent"
 	// ACCTTRANSACTIONURL (to be continued)
 	ACCTTRANSACTIONURL = "/accounttransaction"
+	// LOGALLURL (to be continued)
+	LOGALLURL = "/log"
+	// LOGURL (to be continued)
+	LOGURL = "/log/:userName"
 )
 
 func getMainEngine() *gin.Engine {
@@ -48,6 +52,7 @@ func getMainEngine() *gin.Engine {
 		api.POST(QUOSERVERURL, controller.Quoteserver)
 		api.POST(ERREVENTURL, controller.Errorevent)
 		api.POST(ACCTTRANSACTIONURL, controller.Accounttransaction)
+		api.POST(LOGALLURL, controller.LogAll)
 	}
 	return router
 
