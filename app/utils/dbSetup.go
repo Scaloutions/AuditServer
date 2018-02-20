@@ -32,7 +32,7 @@ func GetDBSession() *mgo.Session {
 	}
 	INFO.Println(SUCCESSFULCONNECTTODBMSG)
 	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	//session.SetMode(mgo.Monotonic, true)
 	return session
 }
 
