@@ -7,8 +7,8 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
-	"./controllers"
-	"./utils"
+	"./app/controllers"
+	"./app/utils"
 	"github.com/gin-gonic/gin"
 )
 
