@@ -1,0 +1,2 @@
+ERROR: 2018/02/19 19:57:16 dbSetup.go:31: Failed to establish connection to Mongo server: 
+ no reachable servers
