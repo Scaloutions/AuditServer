@@ -6,6 +6,14 @@ import (
 	"os"
 )
 
+const (
+	TRACE_FILE_PATH   = "trace.log"
+	INFO_FILE_PATH    = "info.log"
+	WARNING_FILE_PATH = "warning.log"
+	ERROR_FILE_PATH   = "error.log"
+	LOG_FILE_PATH     = "1UserLogFile.xml"
+)
+
 var (
 	TRACE     *log.Logger
 	INFO      *log.Logger
@@ -42,11 +50,11 @@ func initLog(
 
 // Init To initialize loggers
 func Init() {
-	traceLogFile, err1 := os.Create("trace.log")
-	infoLogFile, err2 := os.Create("info.log")
-	warningLogFile, err3 := os.Create("warning.log")
-	errorLogFile, err4 := os.Create("error.log")
-	xmlLogFile, err5 := os.Create("logFile.xml")
+	traceLogFile, err1 := os.Create(TRACE_FILE_PATH)
+	infoLogFile, err2 := os.Create(INFO_FILE_PATH)
+	warningLogFile, err3 := os.Create(WARNING_FILE_PATH)
+	errorLogFile, err4 := os.Create(ERROR_FILE_PATH)
+	xmlLogFile, err5 := os.Create(LOG_FILE_PATH)
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
 		log.Fatalln("Fail to open log file")
 	}
