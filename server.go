@@ -7,8 +7,11 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
+	"log"
+
 	"./app/controllers"
 	"./app/utils"
+	"github.com/spf13/viper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,9 +40,10 @@ const (
 	LOGURL = "/log/:userName"
 )
 
-func getMainEngine() *gin.Engine {
+func getMainEngine(v *viper.Viper) *gin.Engine {
 
-	session := utils.GetDBSession()
+	session := utils.GetDBSession(v)
+	log.Println(session)
 
 	controller :=
 		controllers.NewController(session)
@@ -56,6 +60,8 @@ func getMainEngine() *gin.Engine {
 		api.POST(LOGALLURL, controller.LogAll)
 		api.POST(LOGURL, controller.LogByUserName)
 	}
+	utils.INFO.Println(router)
+
 	return router
 
 }
@@ -63,8 +69,8 @@ func getMainEngine() *gin.Engine {
 func main() {
 
 	utils.Init() // initialize loggers
-
-	router := getMainEngine()
+	viperObj := utils.SetUpExternalConfig()
+	router := getMainEngine(viperObj)
 
 	router.Run(":8082")
 }

@@ -4,6 +4,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 func GetCurrentTs() int64 {
@@ -32,4 +34,24 @@ func GetXMLEventString(loggingObject interface{}) string {
 	}
 	return xmlString
 
+}
+
+func IsDevEnv(v *viper.Viper) bool {
+	if v.GetInt("environment.active") == 1 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func GetDBURL(v *viper.Viper) string {
+
+	var prefix string
+	if IsDevEnv(v) {
+		prefix = "development"
+	} else {
+		prefix = "production"
+	}
+	key := prefix + "." + "database.url"
+	return v.GetString(key)
 }

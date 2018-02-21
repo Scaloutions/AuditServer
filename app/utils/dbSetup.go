@@ -3,6 +3,8 @@ package utils
 import (
 	"fmt"
 
+	"github.com/spf13/viper"
+
 	mgo "gopkg.in/mgo.v2"
 )
 
@@ -23,8 +25,9 @@ const (
 )
 
 // GetDBSession (to be continued)
-func GetDBSession() *mgo.Session {
-	session, err := mgo.Dial(SERVER)
+func GetDBSession(v *viper.Viper) *mgo.Session {
+	url := GetDBURL(v)
+	session, err := mgo.Dial(url)
 	if err != nil {
 		errMsg :=
 			fmt.Sprintf("Failed to establish connection to Mongo server: \n %s", err)
