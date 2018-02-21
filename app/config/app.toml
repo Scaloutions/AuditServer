@@ -2,6 +2,7 @@
 active = 1
 # 1: development
 # 2: production
+port = 8082
 
 [db]
 dbname = "eventstore"
@@ -16,7 +17,16 @@ logfilepath = "1UserLogFile.xml"
 
 [development]
     [development.database]
+    host = "localhost"
+    port = "27017"
     url = "localhost:27017"
 
-
-[messages]
+[urls]
+api = "/api"
+system-event = "/systemevent"
+user-command = "/usercommand"
+quote-server = "/quoteserver"
+error-event = "/errorevent"
+account-transaction = "/accounttransaction"
+log-all = "/log"
+log = "/log/:userName"

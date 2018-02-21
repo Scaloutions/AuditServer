@@ -9,6 +9,9 @@ func SetUpExternalConfig() *viper.Viper {
 	v.AddConfigPath("app/config")
 	err := v.ReadInConfig()
 	CheckAndHandleError(err)
+	v.SetConfigName("messages")
+	err = v.MergeInConfig()
+	CheckAndHandleError(err)
 	INFO.Println(v)
 	return v
 }

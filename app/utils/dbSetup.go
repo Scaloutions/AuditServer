@@ -27,6 +27,7 @@ const (
 // GetDBSession (to be continued)
 func GetDBSession(v *viper.Viper) *mgo.Session {
 	url := GetDBURL(v)
+
 	session, err := mgo.Dial(url)
 	if err != nil {
 		errMsg :=

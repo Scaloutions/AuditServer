@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"time"
@@ -39,9 +40,9 @@ func GetXMLEventString(loggingObject interface{}) string {
 func IsDevEnv(v *viper.Viper) bool {
 	if v.GetInt("environment.active") == 1 {
 		return true
-	} else {
-		return false
 	}
+	return false
+
 }
 
 func GetDBURL(v *viper.Viper) string {
@@ -52,6 +53,35 @@ func GetDBURL(v *viper.Viper) string {
 	} else {
 		prefix = "production"
 	}
-	key := prefix + "." + "database.url"
-	return v.GetString(key)
+	var keyArr []interface{}
+	keyArr = append(keyArr, prefix)
+	keyArr = append(keyArr, ".")
+	keyArr = append(keyArr, "database.host")
+	hostKey := ConcatString(keyArr)
+	host := v.GetString(hostKey)
+	keyArr = nil
+	keyArr = append(keyArr, prefix)
+	keyArr = append(keyArr, ".")
+	keyArr = append(keyArr, "database.port")
+	portKey := ConcatString(keyArr)
+	port := v.GetString(portKey)
+	var urlArr []interface{}
+	urlArr = append(urlArr, host)
+	urlArr = append(urlArr, ":")
+	urlArr = append(urlArr, port)
+
+	return ConcatString(urlArr)
+}
+
+func ConcatString(list []interface{}) string {
+
+	var buffer bytes.Buffer
+
+	for i := 0; i < len(list); i++ {
+		str := fmt.Sprintf("%s", list[i])
+		buffer.WriteString(str)
+	}
+
+	return buffer.String()
+
 }

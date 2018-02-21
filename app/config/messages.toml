@@ -1,0 +1,4 @@
+[database]
+successful-connection-to-db = "Connecting to mongodb server successfully..."
+
+[errors]
