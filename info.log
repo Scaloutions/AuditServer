@@ -1,0 +1,2 @@
+INFO: 2018/02/20 22:05:16 dbSetup.go:29: 
+INFO: 2018/02/20 22:05:16 server.go:39: &{{[0xa2ace0 0xa2ba30] / 0xc042274000 true} true false false true false false true 33554432 {{{ }}} while(1); <nil> map[] [0xa2ace0 0xa2ba30] [0xa2ace0 0xa2ba30] [] [] {{} <nil> 0 0xa2ab50} [{POST 0xc042236240}]}

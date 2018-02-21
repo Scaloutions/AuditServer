@@ -1,4 +1,5 @@
 [database]
 successful-connection-to-db = "Connecting to mongodb server successfully..."
 
-[errors]
+[errors] # templates for constructing error message
+fail-to-connect-db-server = "Failed to establish connection to Mongo server: \n %s"

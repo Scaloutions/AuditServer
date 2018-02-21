@@ -8,18 +8,13 @@ port = 8082
 dbname = "eventstore"
 docname = "events"
 
-[logger]
-tracefilepath = "trace.log"
-infofilepath = "info.log"
-warningfilepath = "warning.log"
-errorfilepath = "error.log"
-logfilepath = "1UserLogFile.xml"
+# file paths for logging and some error messages remain in logger.go 
+# to avoid circular dependencies between logging and configuration
 
 [development]
     [development.database]
     host = "localhost"
     port = "27017"
-    url = "localhost:27017"
 
 [urls]
 api = "/api"

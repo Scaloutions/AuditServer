@@ -9,19 +9,11 @@ import (
 )
 
 const (
-	// SERVER the DB server
-	SERVER = "localhost:27017"
+
 	// DBNAME the name of the DB instance
 	DBNAME = "eventstore"
 	// DOCNAME the name of the document
 	DOCNAME = "events"
-
-	/*
-		Messages
-	*/
-
-	// SUCCESSFULCONNECTTODBMSG (to be continued)
-	SUCCESSFULCONNECTTODBMSG = "Connecting to mongodb server successfully..."
 )
 
 // GetDBSession (to be continued)
@@ -31,10 +23,10 @@ func GetDBSession(v *viper.Viper) *mgo.Session {
 	session, err := mgo.Dial(url)
 	if err != nil {
 		errMsg :=
-			fmt.Sprintf("Failed to establish connection to Mongo server: \n %s", err)
+			fmt.Sprintf(v.GetString("errors.fail-to-connect-db-server"), err)
 		ERROR.Println(errMsg)
 	}
-	INFO.Println(SUCCESSFULCONNECTTODBMSG)
+	INFO.Println(v.GetString("database:successful-connection-to-db"))
 	// Optional. Switch the session to a monotonic behavior.
 	//session.SetMode(mgo.Monotonic, true)
 	return session

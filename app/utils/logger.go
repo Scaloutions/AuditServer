@@ -56,7 +56,7 @@ func Init() {
 	errorLogFile, err4 := os.Create(ERROR_FILE_PATH)
 	xmlLogFile, err5 := os.Create(LOG_FILE_PATH)
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
-		log.Fatalln("Fail to open log file")
+		ERROR.Fatalln("Fail to open log file")
 	}
 	initLog(traceLogFile, infoLogFile, warningLogFile, errorLogFile, xmlLogFile)
 	XMLLOGGER.Println("<?xml version=\"1.0\"?>")

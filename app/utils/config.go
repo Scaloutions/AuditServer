@@ -12,6 +12,5 @@ func SetUpExternalConfig() *viper.Viper {
 	v.SetConfigName("messages")
 	err = v.MergeInConfig()
 	CheckAndHandleError(err)
-	INFO.Println(v)
 	return v
 }

@@ -4,17 +4,19 @@ import (
 	"../service"
 	"../utils"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	mgo "gopkg.in/mgo.v2"
 )
 
 type (
 	Controller struct {
-		session *mgo.Session
+		session  *mgo.Session
+		viperObj *viper.Viper
 	}
 )
 
-func NewController(s *mgo.Session) *Controller {
-	return &Controller{s}
+func NewController(s *mgo.Session, v *viper.Viper) *Controller {
+	return &Controller{s, v}
 }
 
 func (controller Controller) Usercommand(c *gin.Context) {
