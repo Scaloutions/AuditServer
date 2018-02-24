@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/spf13/viper"
@@ -130,4 +131,12 @@ func ConcatString(list []interface{}) string {
 		buffer.WriteString(str)
 	}
 	return buffer.String()
+}
+
+func ToIntFromInt64Inteface(i interface{}) int {
+
+	integer, err := strconv.Atoi(string(i.(int64)))
+	CheckAndHandleError(err)
+	return integer
+
 }

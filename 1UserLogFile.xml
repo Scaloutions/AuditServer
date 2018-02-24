@@ -12,3 +12,10 @@
     <username>test123</username>
     <errorMessage></errorMessage>
 </errorEvent>
+<userCommand>
+    <timestamp>1519443385326</timestamp>
+    <server>TestServer3</server>
+    <transactionNum>0</transactionNum>
+    <command></command>
+    <username>test</username>
+</userCommand>

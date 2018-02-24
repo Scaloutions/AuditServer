@@ -48,31 +48,36 @@ func processingHelper(
 	case *data.UserCommandEvent:
 		userCommandEvent := i.(*data.UserCommandEvent)
 		userCommandEvent.ID = bson.NewObjectId()
-		userCommandEvent.EventType = eventMap[0][EVENT_TYPE_INDEX].(int)
+		userCommandEvent.EventType =
+			utils.ToIntFromInt64Inteface(eventMap[0][EVENT_TYPE_INDEX])
 		userCommandEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, userCommandEvent)
 	case *data.SystemEventJ:
 		systemEventJ := i.(*data.SystemEventJ)
 		systemEventJ.ID = bson.NewObjectId()
-		systemEventJ.EventType = eventMap[1][EVENT_TYPE_INDEX].(int)
+		systemEventJ.EventType =
+			utils.ToIntFromInt64Inteface(eventMap[1][EVENT_TYPE_INDEX])
 		systemEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, systemEventJ)
 	case *data.AccountTransactionEvent:
 		accountTransactionEvent := i.(*data.AccountTransactionEvent)
 		accountTransactionEvent.ID = bson.NewObjectId()
-		accountTransactionEvent.EventType = eventMap[4][EVENT_TYPE_INDEX].(int)
+		accountTransactionEvent.EventType =
+			utils.ToIntFromInt64Inteface(eventMap[4][EVENT_TYPE_INDEX])
 		accountTransactionEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, accountTransactionEvent)
 	case *data.QuoteServerEvent:
 		quoteServerEvent := i.(*data.QuoteServerEvent)
 		quoteServerEvent.ID = bson.NewObjectId()
-		quoteServerEvent.EventType = eventMap[3][EVENT_TYPE_INDEX].(int)
+		quoteServerEvent.EventType =
+			utils.ToIntFromInt64Inteface(eventMap[3][EVENT_TYPE_INDEX])
 		quoteServerEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, quoteServerEvent)
 	case *data.ErrorEventJ:
 		errorEventJ := i.(*data.ErrorEventJ)
 		errorEventJ.ID = bson.NewObjectId()
-		errorEventJ.EventType = eventMap[2][EVENT_TYPE_INDEX].(int)
+		errorEventJ.EventType =
+			utils.ToIntFromInt64Inteface(eventMap[2][EVENT_TYPE_INDEX])
 		errorEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, errorEventJ)
 	}
@@ -127,7 +132,9 @@ func LogByUserName(collection *mgo.Collection, c *gin.Context) {
 	}
 }
 
-func processXMLEvent(event map[string]interface{}, eventMap map[string]int) {
+func processXMLEvent(
+	event map[string]interface{},
+	eventMap map[string]int) {
 
 	eventType, _ := event["eventtype"].(int)
 	server, _ := event["server"].(string)
