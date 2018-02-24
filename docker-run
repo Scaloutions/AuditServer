@@ -1,1 +1,7 @@
 docker run -p 8082:8082 audit-server
+
+docker run -p 8082:8082 --link mongodb audit-server
+
+https://github.com/francesyu90/docker-mongodb
+docker build -t frodenas/mongodb .
+docker run -d --name mongodb -p 27017:27017 -e MONGODB_DBNAME="eventstore" frodenas/mongodb --httpinterface

@@ -1,5 +1,5 @@
 [environment]
-active = 2
+active = 0
 # 0: development
 # 1: production
 # 2: docker
@@ -18,7 +18,7 @@ docname = "events"
     port = "27017"
 [docker]
     [docker.database]
-    host = "audit-server"
+    host = "mongodb"
     port = "27017"
 
 [urls]
