@@ -7,6 +7,8 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
+	"fmt"
+
 	"./app/controllers"
 	"./app/utils"
 	"github.com/spf13/viper"
@@ -25,6 +27,9 @@ const (
 	ACCOUNT_TRANSACTION = "urls.account-transaction"
 	LOG_ALL             = "urls.log-all"
 	LOG_BY_USER         = "urls.log"
+
+	// other keys
+	SERVER_PORT = "environment.port"
 )
 
 func getMainEngine(v *viper.Viper) *gin.Engine {
@@ -58,8 +63,9 @@ func main() {
 
 	utils.Init() // initialize loggers
 	var viperObj *viper.Viper = utils.SetUpExternalConfig()
-
+	port := viperObj.Get(SERVER_PORT)
+	portString := fmt.Sprintf("%d", port)
 	router := getMainEngine(viperObj)
-	router.Run(":8082")
+	router.Run(":" + portString)
 
 }

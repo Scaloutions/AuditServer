@@ -18,7 +18,7 @@ docname = "events"
     port = "27017"
 [docker]
     [docker.database]
-    host = "27017"
+    host = "audit-server"
     port = "27017"
 
 [urls]
