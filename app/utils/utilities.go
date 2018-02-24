@@ -17,9 +17,11 @@ const (
 	ACTIVE_ENVIRONMENT = "environment.active"
 	DEV                = "development"
 	PROD               = "production"
+	DOCKER             = "docker"
 	DB_HOST            = "database.host"
 	DB_PORT            = "database.port"
 	EVENT_MAP          = "event-map"
+	ENVIRONMENT_MAP    = "env-map"
 )
 
 func GetCurrentTs() int64 {
@@ -59,14 +61,32 @@ func IsDevEnv(v *viper.Viper) bool {
 
 }
 
+func GetCurrentEnvType(v *viper.Viper) int {
+	return v.GetInt(ACTIVE_ENVIRONMENT)
+}
+
+func GetEnvPrefix(
+	envMap []map[string]interface{}, v *viper.Viper) string {
+
+	curEnvType := GetCurrentEnvType(v)
+
+	switch curEnvType {
+	case ToIntFromInt64Inteface(envMap[0]["index"]):
+		return envMap[0]["type"].(string)
+	case ToIntFromInt64Inteface(envMap[1]["index"]):
+		return envMap[1]["type"].(string)
+	case ToIntFromInt64Inteface(envMap[2]["index"]):
+		return envMap[2]["type"].(string)
+	}
+	return ""
+}
+
 func GetDBURL(v *viper.Viper) string {
 
-	var prefix string
-	if IsDevEnv(v) {
-		prefix = DEV
-	} else {
-		prefix = PROD
-	}
+	envMap := GetEnvMap(v)
+
+	prefix := GetEnvPrefix(envMap, v)
+
 	var keyArr []interface{}
 	keyArr = append(keyArr, prefix)
 	keyArr = append(keyArr, ".")
@@ -90,6 +110,11 @@ func GetDBURL(v *viper.Viper) string {
 func GetEventMap(v *viper.Viper) []map[string]interface{} {
 	eventMapI := v.Get(EVENT_MAP)
 	return toArrayMap(eventMapI, v)
+}
+
+func GetEnvMap(v *viper.Viper) []map[string]interface{} {
+	envMapI := v.Get(ENVIRONMENT_MAP)
+	return toArrayMap(envMapI, v)
 }
 
 func toArrayMap(i interface{}, v *viper.Viper) []map[string]interface{} {
@@ -135,8 +160,10 @@ func ConcatString(list []interface{}) string {
 
 func ToIntFromInt64Inteface(i interface{}) int {
 
-	integer, err := strconv.Atoi(string(i.(int64)))
+	intString := fmt.Sprintf("%d", i)
+	integer, err := strconv.ParseInt(intString, 10, 0)
 	CheckAndHandleError(err)
-	return integer
+
+	return int(integer)
 
 }

@@ -1,7 +1,8 @@
 [environment]
-active = 1
-# 1: development
-# 2: production
+active = 2
+# 0: development
+# 1: production
+# 2: docker
 port = 8082
 
 [db]
@@ -14,6 +15,10 @@ docname = "events"
 [development]
     [development.database]
     host = "localhost"
+    port = "27017"
+[docker]
+    [docker.database]
+    host = "27017"
     port = "27017"
 
 [urls]
@@ -49,4 +54,16 @@ event-type = "quoteserver"
 [[event-map]]
 num = 4
 event-type = "accounttransaction"
+
+[[env-map]]
+index = 0
+type = "development"
+
+[[env-map]]
+index = 1
+type = "production"
+
+[[env-map]]
+index = 2
+type = "docker"
 

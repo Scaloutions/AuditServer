@@ -58,6 +58,7 @@ func main() {
 
 	utils.Init() // initialize loggers
 	var viperObj *viper.Viper = utils.SetUpExternalConfig()
+
 	router := getMainEngine(viperObj)
 	router.Run(":8082")
 
