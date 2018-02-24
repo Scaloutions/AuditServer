@@ -16,6 +16,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+
+	// keys for getting urls
+	API                 = "urls.api"
+	SYSTEM_EVENT        = "urls.system-event"
+	USER_COMMAND        = "urls.user-command"
+	QUOTE_SERVER        = "urls.quote-server"
+	ERROR_EVENT         = "urls.error-event"
+	ACCOUNT_TRANSACTION = "urls.account-transaction"
+	LOG_ALL             = "urls.log-all"
+	LOG_BY_USER         = "urls.log"
+)
+
 func getMainEngine(v *viper.Viper) *gin.Engine {
 
 	session := utils.GetDBSession(v)
@@ -26,15 +39,15 @@ func getMainEngine(v *viper.Viper) *gin.Engine {
 
 	router := gin.Default()
 
-	api := router.Group(v.GetString("urls.api"))
+	api := router.Group(v.GetString(API))
 	{
-		api.POST(v.GetString("urls.system-event"), controller.Systemevent)
-		api.POST(v.GetString("urls.user-command"), controller.Usercommand)
-		api.POST(v.GetString("urls.quote-server"), controller.Quoteserver)
-		api.POST(v.GetString("urls.error-event"), controller.Errorevent)
-		api.POST(v.GetString("urls.account-transaction"), controller.Accounttransaction)
-		api.POST(v.GetString("urls.log-all"), controller.LogAll)
-		api.POST(v.GetString("urls.log"), controller.LogByUserName)
+		api.POST(v.GetString(SYSTEM_EVENT), controller.Systemevent)
+		api.POST(v.GetString(USER_COMMAND), controller.Usercommand)
+		api.POST(v.GetString(QUOTE_SERVER), controller.Quoteserver)
+		api.POST(v.GetString(ERROR_EVENT), controller.Errorevent)
+		api.POST(v.GetString(ACCOUNT_TRANSACTION), controller.Accounttransaction)
+		api.POST(v.GetString(LOG_ALL), controller.LogAll)
+		api.POST(v.GetString(LOG_BY_USER), controller.LogByUserName)
 	}
 	utils.INFO.Println(router)
 
@@ -45,8 +58,8 @@ func getMainEngine(v *viper.Viper) *gin.Engine {
 func main() {
 
 	utils.Init() // initialize loggers
-	viperObj := utils.SetUpExternalConfig()
-
+	var viperObj *viper.Viper = utils.SetUpExternalConfig()
 	router := getMainEngine(viperObj)
 	router.Run(":8082")
+
 }
