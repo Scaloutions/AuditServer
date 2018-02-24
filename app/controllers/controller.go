@@ -72,7 +72,8 @@ func helperFunc(
 	index int,
 	c *gin.Context) {
 
+	eventmap := controller.eventMap
 	collection := utils.GetEventCollection(controller.session.Clone())
-	eventType := controller.eventMap[index][EVENT_TYPE].(string)
-	service.Processing(eventType, c, collection)
+	eventType := eventmap[index][EVENT_TYPE].(string)
+	service.Processing(eventType, c, collection, eventmap)
 }

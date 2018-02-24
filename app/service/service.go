@@ -14,6 +14,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	EVENT_TYPE       = "event-type"
+	EVENT_TYPE_INDEX = "num"
+)
+
 func getBody(c *gin.Context) []byte {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	utils.CheckAndHandleError(err)
@@ -34,67 +39,70 @@ func logXMLObj(i interface{}) {
 func processingHelper(
 	body []byte,
 	i interface{},
-	collection *mgo.Collection) {
+	collection *mgo.Collection,
+	eventMap []map[string]interface{}) {
 
 	getObject(&i, body)
-
-	eventMap := data.GetEventMap()
 
 	switch i.(type) {
 	case *data.UserCommandEvent:
 		userCommandEvent := i.(*data.UserCommandEvent)
 		userCommandEvent.ID = bson.NewObjectId()
-		userCommandEvent.EventType = eventMap["usercommad"]
+		userCommandEvent.EventType = eventMap[0][EVENT_TYPE_INDEX].(int)
 		userCommandEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, userCommandEvent)
 	case *data.SystemEventJ:
 		systemEventJ := i.(*data.SystemEventJ)
 		systemEventJ.ID = bson.NewObjectId()
-		systemEventJ.EventType = eventMap["systemevent"]
+		systemEventJ.EventType = eventMap[1][EVENT_TYPE_INDEX].(int)
 		systemEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, systemEventJ)
 	case *data.AccountTransactionEvent:
 		accountTransactionEvent := i.(*data.AccountTransactionEvent)
 		accountTransactionEvent.ID = bson.NewObjectId()
-		accountTransactionEvent.EventType = eventMap["accounttransaction"]
+		accountTransactionEvent.EventType = eventMap[4][EVENT_TYPE_INDEX].(int)
 		accountTransactionEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, accountTransactionEvent)
 	case *data.QuoteServerEvent:
 		quoteServerEvent := i.(*data.QuoteServerEvent)
 		quoteServerEvent.ID = bson.NewObjectId()
-		quoteServerEvent.EventType = eventMap["quoteserver"]
+		quoteServerEvent.EventType = eventMap[3][EVENT_TYPE_INDEX].(int)
 		quoteServerEvent.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, quoteServerEvent)
 	case *data.ErrorEventJ:
 		errorEventJ := i.(*data.ErrorEventJ)
 		errorEventJ.ID = bson.NewObjectId()
-		errorEventJ.EventType = eventMap["errorevent"]
+		errorEventJ.EventType = eventMap[2][EVENT_TYPE_INDEX].(int)
 		errorEventJ.Timestamp = utils.GetCurrentTs()
 		repositories.SaveEvent(collection, errorEventJ)
 	}
 }
 
-func Processing(commandType string, c *gin.Context, collection *mgo.Collection) {
+func Processing(
+	commandType string,
+	c *gin.Context,
+	collection *mgo.Collection,
+	eventMap []map[string]interface{}) {
 
 	body := getBody(c)
 	utils.INFO.Println(string(body))
 
 	switch commandType {
-	case "usercommand":
+	case eventMap[0][EVENT_TYPE].(string):
 		var userCommandEvent data.UserCommandEvent
-		processingHelper(body, &userCommandEvent, collection)
-	case "systemevent":
+		processingHelper(body, &userCommandEvent, collection, eventMap)
+	case eventMap[1][EVENT_TYPE].(string):
 		var systemEventJ data.SystemEventJ
-		processingHelper(body, &systemEventJ, collection)
-	case "accounttransaction":
+		processingHelper(body, &systemEventJ, collection, eventMap)
+	case eventMap[4][EVENT_TYPE].(string):
 		var accountTransactionEvent data.AccountTransactionEvent
-		processingHelper(body, &accountTransactionEvent, collection)
-	case "quoteserver":
+		processingHelper(body, &accountTransactionEvent, collection, eventMap)
+	case eventMap[3][EVENT_TYPE].(string):
 		var quoteServerEvent data.QuoteServerEvent
-		processingHelper(body, &quoteServerEvent, collection)
-	case "errorevent":
+		processingHelper(body, &quoteServerEvent, collection, eventMap)
+	case eventMap[2][EVENT_TYPE].(string):
 		var errorEventJ data.ErrorEventJ
-		processingHelper(body, &errorEventJ, collection)
+		processingHelper(body, &errorEventJ, collection, eventMap)
 	}
 }
 

@@ -1,6 +1,2 @@
-INFO: 2018/02/23 18:53:31 dbSetup.go:29: 
-INFO: 2018/02/23 18:53:31 server.go:51: &{{[0xa2b2d0 0xa2c020] / 0xc04208d560 true} true false false true false false true 33554432 {{{ }}} while(1); <nil> map[] [0xa2b2d0 0xa2c020] [0xa2b2d0 0xa2c020] [] [] {{} <nil> 0 0xa2b140} [{POST 0xc0420a30e0}]}
-INFO: 2018/02/23 18:54:33 service.go:80: {"Server": "TestServer1", "UserName": "byu00"}
-INFO: 2018/02/23 18:55:14 service.go:80: {"Server": "TestServer2", "UserName": "test123"}
-INFO: 2018/02/23 18:55:55 service.go:80: {"Server": "TestServer3", "UserName": "test"}
-INFO: 2018/02/23 18:56:09 service.go:80: {"Server": "TestServer3", "UserName": "test"}
+INFO: 2018/02/23 19:15:53 dbSetup.go:29: 
+INFO: 2018/02/23 19:15:53 server.go:51: &{{[0xa2b2d0 0xa2c020] / 0xc042280000 true} true false false true false false true 33554432 {{{ }}} while(1); <nil> map[] [0xa2b2d0 0xa2c020] [0xa2b2d0 0xa2c020] [] [] {{} <nil> 0 0xa2b140} [{POST 0xc0420382a0}]}
