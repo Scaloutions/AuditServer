@@ -190,10 +190,10 @@ func GetErrorEvent(
 // GetEventMap (to be continued)
 func GetEventMap() map[string]int {
 	return map[string]int{
-		"usercommand":        1,
-		"systemevent":        2,
-		"errorevent":         3,
-		"quoteserver":        4,
-		"accounttransaction": 5,
+		"usercommand":        0,
+		"systemevent":        1,
+		"errorevent":         2,
+		"quoteserver":        3,
+		"accounttransaction": 4,
 	}
 }

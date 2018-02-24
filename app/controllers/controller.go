@@ -12,41 +12,46 @@ type (
 	Controller struct {
 		session  *mgo.Session
 		viperObj *viper.Viper
+		eventMap []map[string]interface{}
 	}
 )
 
-func NewController(s *mgo.Session, v *viper.Viper) *Controller {
-	return &Controller{s, v}
+const (
+	EVENT_TYPE = "event-type"
+)
+
+func NewController(
+	s *mgo.Session, v *viper.Viper, eventMap []map[string]interface{}) *Controller {
+	return &Controller{s, v, eventMap}
 }
 
 func (controller Controller) Usercommand(c *gin.Context) {
-
-	collection := utils.GetEventCollection(controller.session.Clone())
-	service.Processing("usercommand", c, collection)
+	index := 0
+	helperFunc(controller, index, c)
 }
 
 func (controller Controller) Systemevent(c *gin.Context) {
 
-	collection := utils.GetEventCollection(controller.session.Clone())
-	service.Processing("systemevent", c, collection)
+	index := 1
+	helperFunc(controller, index, c)
 }
 
 func (controller Controller) Quoteserver(c *gin.Context) {
 
-	collection := utils.GetEventCollection(controller.session.Clone())
-	service.Processing("quoteserver", c, collection)
+	index := 3
+	helperFunc(controller, index, c)
 }
 
 func (controller Controller) Accounttransaction(c *gin.Context) {
 
-	collection := utils.GetEventCollection(controller.session.Clone())
-	service.Processing("accounttransaction", c, collection)
+	index := 4
+	helperFunc(controller, index, c)
 }
 
 func (controller Controller) Errorevent(c *gin.Context) {
 
-	collection := utils.GetEventCollection(controller.session.Clone())
-	service.Processing("errorevent", c, collection)
+	index := 2
+	helperFunc(controller, index, c)
 }
 
 func (controller Controller) LogAll(c *gin.Context) {
@@ -60,4 +65,14 @@ func (controller Controller) LogByUserName(c *gin.Context) {
 
 	collection := utils.GetEventCollection(controller.session.Clone())
 	service.LogByUserName(collection, c)
+}
+
+func helperFunc(
+	controller Controller,
+	index int,
+	c *gin.Context) {
+
+	collection := utils.GetEventCollection(controller.session.Clone())
+	eventType := controller.eventMap[index][EVENT_TYPE].(string)
+	service.Processing(eventType, c, collection)
 }

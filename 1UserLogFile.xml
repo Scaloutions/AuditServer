@@ -1,16 +1,40 @@
 <?xml version="1.0"?>
-<accountTransaction>
-    <timestamp>1518529970200</timestamp>
+<systemEvent>
+    <timestamp>1519440873769</timestamp>
     <server>TestServer1</server>
     <transactionNum>0</transactionNum>
-    <action></action>
     <username>byu00</username>
-    <funds></funds>
-</accountTransaction>
+</systemEvent>
 <errorEvent>
-    <timestamp>1518531094288</timestamp>
+    <timestamp>1519440914992</timestamp>
     <server>TestServer2</server>
     <transactionNum>0</transactionNum>
-    <username></username>
+    <username>test123</username>
+    <errorMessage></errorMessage>
+</errorEvent>
+<systemEvent>
+    <timestamp>1519440873769</timestamp>
+    <server>TestServer1</server>
+    <transactionNum>0</transactionNum>
+    <username>byu00</username>
+</systemEvent>
+<errorEvent>
+    <timestamp>1519440914992</timestamp>
+    <server>TestServer2</server>
+    <transactionNum>0</transactionNum>
+    <username>test123</username>
+    <errorMessage></errorMessage>
+</errorEvent>
+<systemEvent>
+    <timestamp>1519440873769</timestamp>
+    <server>TestServer1</server>
+    <transactionNum>0</transactionNum>
+    <username>byu00</username>
+</systemEvent>
+<errorEvent>
+    <timestamp>1519440914992</timestamp>
+    <server>TestServer2</server>
+    <transactionNum>0</transactionNum>
+    <username>test123</username>
     <errorMessage></errorMessage>
 </errorEvent>

@@ -7,8 +7,6 @@ https://medium.com/@maumribeiro/a-fullstack-epic-part-i-a-rest-api
 */
 
 import (
-	"log"
-
 	"./app/controllers"
 	"./app/utils"
 	"github.com/spf13/viper"
@@ -32,10 +30,11 @@ const (
 func getMainEngine(v *viper.Viper) *gin.Engine {
 
 	session := utils.GetDBSession(v)
-	log.Println(session)
+
+	eventMap := utils.GetEventMap(v)
 
 	controller :=
-		controllers.NewController(session, v)
+		controllers.NewController(session, v, eventMap)
 
 	router := gin.Default()
 
