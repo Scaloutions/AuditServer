@@ -32,7 +32,11 @@ Install Docker, MongoDB
 
 - In non-Docker environment:
 
-  1.  Start MongoDB by running 
+  1.  Open /app/config/app.toml
+
+  2.  Set active = 0
+
+  3.  Start MongoDB by running 
 
      ```
      mongodb
