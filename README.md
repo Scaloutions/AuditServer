@@ -12,8 +12,6 @@ for notes on how to deploy the project on a live system.
 Install Docker, MongoDB
 ```
 
-
-
 ## Deployment
 
 ### Run 
