@@ -1,5 +1,5 @@
 [environment]
-active = 0
+active = 2
 # 0: development
 # 1: production
 # 2: docker

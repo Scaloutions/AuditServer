@@ -14,4 +14,4 @@ ADD . /app
 
 RUN go build ./server.go
 
-CMD [ "./server" ]
+CMD [ "./server"]
