@@ -57,14 +57,14 @@ func (controller Controller) Errorevent(c *gin.Context) {
 func (controller Controller) LogAll(c *gin.Context) {
 
 	collection := utils.GetEventCollection(controller.session)
-	service.LogAll(collection)
+	go service.LogAll(collection)
 
 }
 
 func (controller Controller) LogByUserName(c *gin.Context) {
 
 	collection := utils.GetEventCollection(controller.session)
-	service.LogByUserName(collection, c)
+	go service.LogByUserName(collection, c)
 }
 
 func helperFunc(
@@ -75,5 +75,5 @@ func helperFunc(
 	eventmap := controller.eventMap
 	collection := utils.GetEventCollection(controller.session)
 	eventType := eventmap[index][EVENT_TYPE].(string)
-	service.Processing(eventType, c, collection, eventmap)
+	go service.Processing(eventType, c, collection, eventmap)
 }
