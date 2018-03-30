@@ -214,3 +214,8 @@ func processXMLEvent(
 		logXMLObj(accountTransaction)
 	}
 }
+
+func ClearDatabase(colllection *mgo.Collection) {
+
+	repositories.RemoveAll(colllection)
+}

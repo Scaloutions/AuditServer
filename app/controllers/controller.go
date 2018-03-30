@@ -67,6 +67,13 @@ func (controller Controller) LogByUserName(c *gin.Context) {
 	go service.LogByUserName(collection, c)
 }
 
+func (controller Controller) ClearDatabase(c *gin.Context) {
+
+	collection := utils.GetEventCollection(controller.session)
+	go service.ClearDatabase(collection)
+
+}
+
 func helperFunc(
 	controller Controller,
 	index int,

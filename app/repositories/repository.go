@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"log"
+
 	"../utils"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -15,8 +17,8 @@ func GetAllEvents(
 	collection *mgo.Collection) []map[string]interface{} {
 
 	var results []map[string]interface{}
-	error := collection.Find(nil).All(&results)
-	utils.CheckAndHandleError(error)
+	err := collection.Find(nil).All(&results)
+	utils.CheckAndHandleError(err)
 
 	return results
 }
@@ -26,8 +28,15 @@ func GetAllEventsByUser(
 	userName string) []map[string]interface{} {
 
 	var results []map[string]interface{}
-	error := collection.Find(bson.M{"username": userName}).All(&results)
-	utils.CheckAndHandleError(error)
+	err := collection.Find(bson.M{"username": userName}).All(&results)
+	utils.CheckAndHandleError(err)
 	return results
 
+}
+
+func RemoveAll(collection *mgo.Collection) {
+
+	info, err := collection.RemoveAll(nil)
+	utils.CheckAndHandleError(err)
+	log.Println(info)
 }
