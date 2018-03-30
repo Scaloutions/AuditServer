@@ -50,8 +50,8 @@ func getMainEngine(v *viper.Viper) *gin.Engine {
 		api.POST(v.GetString(QUOTE_SERVER), controller.Quoteserver)
 		api.POST(v.GetString(ERROR_EVENT), controller.Errorevent)
 		api.POST(v.GetString(ACCOUNT_TRANSACTION), controller.Accounttransaction)
-		api.POST(v.GetString(LOG_ALL), controller.LogAll)
-		api.POST(v.GetString(LOG_BY_USER), controller.LogByUserName)
+		api.GET(v.GetString(LOG_ALL), controller.LogAll)
+		api.GET(v.GetString(LOG_BY_USER), controller.LogByUserName)
 	}
 	utils.INFO.Println(router)
 
