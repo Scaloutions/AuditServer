@@ -10,7 +10,7 @@ type UserCommandEvent struct {
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
 	EventType      int           `json:"eventType"`
-	UserName       string        `json:"userName"`
+	UserName       string        `json:"userId"`
 	Command        string        `json:"command"`
 	StockSymbol    string        `json:"stockSymbol,omitempty"`
 	Funds          string        `json:"funds,omitempty"`
@@ -22,7 +22,7 @@ type AccountTransactionEvent struct {
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
 	EventType      int           `json:"eventType"`
-	UserName       string        `json:"userName"`
+	UserName       string        `json:"userId"`
 	Action         string        `json:"action"`
 	Funds          string        `json:"funds"`
 }
@@ -33,7 +33,7 @@ type SystemEventJ struct {
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
 	EventType      int           `json:"eventType"`
-	UserName       string        `json:"userName"`
+	UserName       string        `json:"userId"`
 	Command        string        `json:"command,omitempty"`
 	StockSymbol    string        `json:"stockSymbol,omitempty"`
 	Funds          string        `json:"funds,omitempty"`
@@ -45,7 +45,7 @@ type QuoteServerEvent struct {
 	Server          string        `json:"server"`
 	TransactionNum  int           `json:"transactionNum"`
 	EventType       int           `json:"eventType"`
-	UserName        string        `json:"userName"`
+	UserName        string        `json:"userId"`
 	QuoteServerTime int64         `json:"quoteServerTime"`
 	Command         string        `json:"command,omitempty"`
 	StockSymbol     string        `json:"stockSymbol"`
@@ -59,7 +59,7 @@ type ErrorEventJ struct {
 	Server         string        `json:"server"`
 	TransactionNum int           `json:"transactionNum"`
 	EventType      int           `json:"eventType"`
-	UserName       string        `json:"userName"`
+	UserName       string        `json:"userId"`
 	Command        string        `json:"command,omitempty"`
 	StockSymbol    string        `json:"stockSymbol,omitempty"`
 	Funds          string        `json:"funds,omitempty"`
