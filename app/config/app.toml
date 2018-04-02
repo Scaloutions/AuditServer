@@ -1,70 +1,31 @@
+
 [environment]
-active = 2
-# 0: development
-# 1: production
-# 2: docker
+active = 0
+#   0: development
+#   1: docker
 port = 8082
 
+[log_file_path]
+trace = "trace.log"
+info = "info.log"
+warning = "warning.log"
+error = "error.log"
+xml = "logFile.xml"
+
 [db]
-dbname = "eventstore"
-docname = "events"
+port = "27017"
+db_name = "eventstore"
+doc_name = "events"
+pool_limit = 100
+timeout = 10
 
-# file paths for logging and some error messages remain in logger.go 
-# to avoid circular dependencies between logging and configuration
-
-[development]
-    [development.database]
-    host = "localhost"
-    port = "27017"
-[docker]
-    [docker.database]
-    host = "mongodb"
-    port = "27017"
-
-[urls]
+[uri]
 api = "/api"
-system-event = "/systemevent"
-user-command = "/usercommand"
-quote-server = "/quoteserver"
-error-event = "/errorevent"
-account-transaction = "/accounttransaction"
-log-all = "/log"
+system_event = "/systemevent"
+user_command = "/usercommand"
+quote_server = "/quoteserver"
+error_event = "/errorevent"
+account_transaction = "/accounttransaction"
+log_all = "/log"
 log = "/log/:userName"
-clear-db = "/clear-db"
-
-######################
-# maps
-######################
-
-[[event-map]]
-num = 0
-event-type = "usercommand"
-
-[[event-map]]
-num = 1
-event-type = "systemevent"
-
-[[event-map]]
-num = 2
-event-type = "errorevent"
-
-[[event-map]]
-num = 3
-event-type = "quoteserver"
-
-[[event-map]]
-num = 4
-event-type = "accounttransaction"
-
-[[env-map]]
-index = 0
-type = "development"
-
-[[env-map]]
-index = 1
-type = "production"
-
-[[env-map]]
-index = 2
-type = "docker"
-
+clear_db = "/clear-db"

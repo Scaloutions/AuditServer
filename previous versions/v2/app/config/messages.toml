@@ -1,0 +1,7 @@
+[database]
+successful-connection-to-db = "Connecting to mongodb server successfully..."
+
+[errors] # templates for constructing error message
+fail-to-connect-db-server = "Failed to establish connection to Mongo server: \n %s"
+fail-to-cast-map = "Failed to cast interface i into a map"
+fail-to-cast-array = "Failed to cast interface i into an array"
