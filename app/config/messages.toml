@@ -12,11 +12,13 @@
     db_update_by_id_error = "Failed to update an event in the db."
     db_delete_error = "Failed to delete an event in the db."
     db_find_all_error = "Failed to find all events in the db."
+    db_find_account_transaction_by_user = "Failed to retrieve transaction history for a given user."
     db_find_by_user_id_error = "Failed to find any events by the given user."
     no_user_id_available_error = "There is no user id available for an event."
     create_log_file_error = "Failed to create log file."
 
     [messages.warning]
     no_events_found_warning = "There is no available event in db"
-    no_events_found_by_user_warning = "There is no event available with the given user id"
+    no_events_found_by_user_warning = "There is no event available with the given user id."
+    no_account_transaction_found_by_user_warning = "There is no transaction history found for a given user."
   

@@ -112,6 +112,34 @@ func (controller Controller) LogByUser(c *gin.Context) {
 
 }
 
+func (controller Controller) GetTransactionHistoryByUser(c *gin.Context) {
+
+	ch := controller.checkAndHandleDBError(c)
+	hasErr := <-ch
+	if hasErr {
+		return
+	}
+
+	userID := c.Param("userName")
+	atEvents, asErr, asWarning :=
+		controller.service.GetTransactionHistoryByUser(userID)
+	if asErr != nil {
+		controller.handleError(c, asErr)
+		return
+	} else if asWarning != nil {
+		controller.handleWarning(c, asWarning)
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"status": http.StatusOK,
+			"data":   atEvents,
+		})
+
+}
+
 func (controller Controller) HandleATEvent(c *gin.Context) {
 
 	ch := controller.checkAndHandleDBError(c)

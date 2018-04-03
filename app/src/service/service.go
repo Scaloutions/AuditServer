@@ -120,6 +120,30 @@ func (service Service) LogByUser(userID string) (
 	return nil, nil
 }
 
+func (service Service) GetTransactionHistoryByUser(userID string) (
+	[]*data.AccountTransactionEvent,
+	*exception.ASError,
+	*exception.ASWarning) {
+
+	events, asErr := service.repo.FindAccountTransactionByUserID(userID)
+	if asErr != nil {
+		return nil, asErr, nil
+	} else if events == nil {
+		asWarning :=
+			service.u.GetWarning(
+				exception.AS00018,
+				"no_account_transaction_found_by_user_warning")
+		return nil, nil, asWarning
+	}
+
+	var atEvents []*data.AccountTransactionEvent
+	for _, event := range events {
+		atEvents = append(atEvents, event.AcctTxnEvent)
+	}
+	return atEvents, nil, nil
+
+}
+
 /*
 	Private methods
 */

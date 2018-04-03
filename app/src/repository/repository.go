@@ -181,6 +181,39 @@ func (repo Repository) FindByUserID(userID string) (
 
 }
 
+func (repo Repository) FindAccountTransactionByUserID(userID string) (
+	[]*data.Event, *exception.ASError) {
+
+	var eventsByUser []*data.Event
+
+	c := make(chan error)
+
+	go func() {
+
+		newSession := repo.session.Clone()
+		defer newSession.Close()
+
+		err := newSession.DB(repo.dbName).
+			C(repo.docName).
+			Find(bson.M{"event_type": data.AcTxnEvent, "user_id": userID}).
+			All(&eventsByUser)
+
+		c <- err
+	}()
+
+	err := <-c
+
+	if err != nil {
+		asErr := repo.u.GetError(
+			exception.AS00017, "db_find_account_transaction_by_user", err)
+		repo.loggers.ERROR.Println(asErr.ErrorMessage())
+		return nil, asErr
+	}
+
+	return eventsByUser, nil
+
+}
+
 /*
 	Private methods
 */

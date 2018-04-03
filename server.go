@@ -44,6 +44,9 @@ func getMainEngine(u *util.Utilities, loggers *util.Logger) (
 		api.GET(
 			u.GetStringConfigValue("uri.log"),
 			controller.LogByUser)
+		api.GET(
+			u.GetStringConfigValue("uri.transaction_history_by_user"),
+			controller.GetTransactionHistoryByUser)
 
 	}
 
