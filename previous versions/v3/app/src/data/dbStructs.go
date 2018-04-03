@@ -9,7 +9,6 @@ const (
 	SyEvent
 	QuSEvent
 	ErEvent
-	UsrCmd
 )
 
 type Event struct {
@@ -20,5 +19,4 @@ type Event struct {
 	SysEvent     *SystemEvent             `bson:"system_event"`
 	QsEvent      *QuoteServerEvent        `bson:"quote_server_event"`
 	ErrEvent     *ErrorEvent              `bson:"error_event"`
-	UsrCmmand    *UserCommand             `bson:"user_command"`
 }
