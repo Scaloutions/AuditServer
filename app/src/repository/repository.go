@@ -237,6 +237,8 @@ func (repo Repository) getUserID(event *data.Event) (string, *exception.ASError)
 		return event.QsEvent.UserId, nil
 	} else if event.ErrEvent != nil {
 		return event.ErrEvent.UserId, nil
+	} else if event.UsrCmmand != nil {
+		return event.UsrCmmand.UserId, nil
 	}
 	asError := repo.u.GetError(
 		exception.AS00013, "no_user_id_available_error", nil)
