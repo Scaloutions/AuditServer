@@ -20,7 +20,7 @@ type Repository struct {
 }
 
 const (
-	insert_count = 2
+	insert_count = 100
 )
 
 var (
