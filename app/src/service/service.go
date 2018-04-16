@@ -60,7 +60,7 @@ func (service Service) ProcessReqBody(
 func (service Service) SaveEvent(
 	event *data.Event) *exception.ASError {
 
-	return service.repo.Insert(event)
+	return service.repo.BatchInsert(event)
 }
 
 func (service Service) GetAllEvents() (

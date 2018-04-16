@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
@@ -16,6 +18,14 @@ type Repository struct {
 	docName string
 	loggers *util.Logger
 }
+
+const (
+	insert_count = 2
+)
+
+var (
+	Events []*data.Event
+)
 
 func GetRepository(
 	session *mgo.Session,
@@ -58,6 +68,57 @@ func (repo Repository) Insert(event *data.Event) *exception.ASError {
 		return asErr
 	}
 	return nil
+}
+
+func (repo Repository) BatchInsert(event *data.Event) *exception.ASError {
+
+	userID, asErr1 := repo.getUserID(event)
+	if asErr1 != nil {
+		return asErr1
+	}
+	event.UserID = userID
+	event.ID = bson.NewObjectId()
+
+	repo.loggers.INFO.Println("Event to be inserted: ", event)
+
+	Events = append(Events, event)
+	log.Println("Event size: ", len(Events))
+
+	// check the size of to be inserted event
+	if len(Events) >= insert_count {
+
+		// // else batch insert and clear collection
+		c := make(chan error)
+
+		for index := range Events {
+
+			tmpEvent := Events[index]
+
+			go func() {
+
+				newSession := repo.session.Clone()
+				defer newSession.Close()
+
+				err := newSession.DB(repo.dbName).
+					C(repo.docName).
+					Insert(&tmpEvent)
+
+				if err != nil {
+					log.Println(err)
+				}
+
+				c <- err
+
+			}()
+
+		}
+
+		<-c
+		Events = Events[:0]
+	}
+
+	return nil
+
 }
 
 func (repo Repository) UpdateById(event *data.Event) *exception.ASError {
